@@ -83,7 +83,7 @@ New team members should setup their environment by following these steps.
         ```
     1. Run the following script to add yourself as a user in the SQL users table
         ```pwsh
-        ./infra/core/database/create-sql-user-and-role.ps1 -SqlServerName $sqlServerName -SqlDatabaseName $sqlDatabaseName -ObjectId $objectId -DisplayName $displayName -DatabaseRoles @('db_owner')
+        ./infra/core/database/scripts/create-sql-user-and-role.ps1 -SqlServerName $sqlServerName -SqlDatabaseName $sqlDatabaseName -ObjectId $objectId -DisplayName $displayName -DatabaseRoles @('db_owner')
         ```
 1. Open the Visual Studio solution `./src/Relecloud.sln`
 1. Right-click the **Relecloud** solution and pick **Set Startup Projects...**
