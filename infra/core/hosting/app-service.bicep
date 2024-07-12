@@ -60,6 +60,9 @@ param privateEndpointSettings PrivateEndpointSettings?
 @description('The service prefix to use.')
 param servicePrefix string
 
+@description('An additional collection of site sittings to apply to the resource (e.g. runtime = "Python").')
+param siteConfig object = {}
+
 // ========================================================================
 // VARIABLES
 // ========================================================================
@@ -85,7 +88,7 @@ var defaultAppServiceProperties = {
   httpsOnly: true
   publicNetworkAccess: enablePublicNetworkAccess ? 'Enabled' : 'Disabled'
   serverFarmId: resourceId('Microsoft.Web/serverfarms', appServicePlanName)
-  siteConfig: {
+  siteConfig: union({
     alwaysOn: true
     detailedErrorLoggingEnabled: diagnosticSettings.enableLogs
     httpLoggingEnabled: diagnosticSettings.enableLogs
@@ -93,7 +96,7 @@ var defaultAppServiceProperties = {
     ftpsState: 'Disabled'
     ipSecurityRestrictions: ipSecurityRestrictions
     minTlsVersion: '1.2'
-  }
+  }, siteConfig)
 }
 
 var networkIsolationAppServiceProperties = !empty(outboundSubnetId) ? {
