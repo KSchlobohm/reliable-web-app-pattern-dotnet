@@ -57,6 +57,8 @@ var defaultResourceNames = {
   hubSubnetJumpbox: 'JumpboxSubnet'
   hubSubnetPrivateEndpoint: 'PrivateEndpointSubnet'
   hubVirtualNetwork: 'vnet-hub-${resourceToken}'
+  containerRegistry: 'acr${resourceToken}'
+  containerRegistryPrivateEndpoint: 'pep-acr${resourceToken}'
 
   // Spoke network resources
   spokeApiInboundSubnet: 'API-Inbound'
@@ -84,8 +86,8 @@ var defaultResourceNames = {
 
   // Application resources
   appCognitiveServices: 'cog-${resourceToken}'
-  pyAppService: 'app-py-plan-${resourceToken}'
-  pyAppServicePlan: 'asp-py-plan-${resourceToken}'
+  pyAppService: 'app-py-${resourceToken}'
+  pyAppServicePlan: 'asp-py-${resourceToken}'
   searchService: 'gptkb-${resourceToken}'
   webAppPyPrivateEndpoint: 'pep-pyapp-${resourceToken}'
   cogServicesPrivateEndpoint: 'pep-cog-${resourceToken}'
@@ -141,6 +143,8 @@ output resourceNames object = {
   hubSubnetJumpbox: contains(overrides, 'hubSubnetJumpbox') && !empty(overrides.hubSubnetJumpbox) ? overrides.hubSubnetJumpbox : defaultResourceNames.hubSubnetJumpbox
   hubSubnetPrivateEndpoint: contains(overrides, 'hubSubnetPrivateEndpoint') && !empty(overrides.hubSubnetPrivateEndpoint) ? overrides.hubSubnetPrivateEndpoint : defaultResourceNames.hubSubnetPrivateEndpoint
   hubVirtualNetwork: contains(overrides, 'hubVirtualNetwork') && !empty(overrides.hubVirtualNetwork) ? overrides.hubVirtualNetwork : defaultResourceNames.hubVirtualNetwork
+  containerRegistry: contains(overrides, 'containerRegistry') && !empty(overrides.containerRegistry) ? overrides.containerRegistry : defaultResourceNames.containerRegistry
+  containerRegistryPrivateEndpoint: contains(overrides, 'containerRegistryPrivateEndpoint') && !empty(overrides.containerRegistryPrivateEndpoint) ? overrides.containerRegistryPrivateEndpoint : defaultResourceNames.containerRegistryPrivateEndpoint
 
   // Spoke network resources
   spokeApiInboundSubnet: contains(overrides, 'spokeApiInboundSubnet') && !empty(overrides.spokeApiInboundSubnet) ? overrides.spokeApiInboundSubnet : defaultResourceNames.spokeApiInboundSubnet

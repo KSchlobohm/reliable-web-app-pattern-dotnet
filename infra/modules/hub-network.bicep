@@ -62,6 +62,9 @@ param createDevopsSubnet bool = false
 // VARIABLES
 // ========================================================================
 
+// Allows push and pull access to Azure Container Registry images.
+var containerRegistryPushRoleId = '8311e382-0749-4cb8-b61a-304f252e45ec'
+
 // The tags to apply to all resources in this workload
 var moduleTags = union(deploymentSettings.tags, {
   WorkloadName: 'NetworkHub'
@@ -401,6 +404,51 @@ module privateDnsZones './private-dns-zones.bicep' = {
     deploymentSettings: deploymentSettings
     hubResourceGroupName: resourceGroup.name
     virtualNetworkLinks: virtualNetworkLinks
+  }
+}
+
+
+
+/*
+** Azure Container Registry
+** The registry is deployed with the hub in production scenarios but with application resources in dev scenarios.
+*/
+
+module containerRegistry '../core/containers/container-registry.bicep' = {
+  name: 'hub-container-registry-${deploymentSettings.resourceToken}'
+  scope: resourceGroup
+  dependsOn: [
+    // Provisioning the Key Vault involves creating a private endpoint, which requires
+    // private DNS zones to be created and linked to the virtual network.
+    privateDnsZones
+  ]
+  
+  params: {
+    name: resourceNames.containerRegistry
+    location: deploymentSettings.location
+    tags: moduleTags
+    acrSku: (deploymentSettings.isProduction || deploymentSettings.isNetworkIsolated) ? 'Premium' :  'Basic'
+    logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
+
+    // Settings
+    acrAdminUserEnabled: false
+    anonymousPullEnabled: false
+    zoneRedundancy: deploymentSettings.isProduction ? 'Enabled' : 'Disabled'
+    publicNetworkAccess: (deploymentSettings.isProduction && deploymentSettings.isNetworkIsolated) ? 'Disabled' : 'Enabled'
+    privateEndpointSettings:  {
+      dnsResourceGroupName: resourceGroup.name
+      name: resourceNames.containerRegistryPrivateEndpoint
+      resourceGroupName: resourceGroup.name
+      subnetId: virtualNetwork.outputs.subnets[privateEndpointSubnet.name].id
+    }
+    replications: null
+    roleAssignments: [
+      {
+        principalId: deploymentSettings.principalId
+        principalType: deploymentSettings.principalType
+        roleDefinitionIdOrName: containerRegistryPushRoleId
+      }
+    ]
   }
 }
 

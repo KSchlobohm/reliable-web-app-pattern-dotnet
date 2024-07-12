@@ -28,9 +28,10 @@ param privateDnsZones array = [
   'privatelink.azurewebsites.net'
   'privatelink.redis.cache.windows.net'
   'privatelink.azconfig.io'
+  'privatelink.blob.${environment().suffixes.storage}'
   'privatelink.search.windows.net'
   'privatelink.openai.azure.com'
-  'privatelink.blob.${environment().suffixes.storage}'
+  'privatelink.azurecr.io'
 ]
 
 @description('The hub resource group name.')
