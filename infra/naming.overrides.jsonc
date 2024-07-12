@@ -17,6 +17,8 @@
   // "hubSubnetJumpbox": "",
   // "hubSubnetPrivateEndpoint": "",
   // "hubVirtualNetwork": "",
+  // "containerRegistry": "",
+  // "containerRegistryPrivateEndpoint": "",
 
   // Spoke network resources
   // "spokeApiInboundSubnet": "",

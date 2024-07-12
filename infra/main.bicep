@@ -43,6 +43,9 @@ param principalName string = ''
 @description('The type of the principal specified in \'principalId\'')
 param principalType string = 'ServicePrincipal'
 
+param searchIndexName string = 'gptkbindex'
+param storageContainerName string = 'content'
+
 /*
 ** Parameters that make changes to the deployment based on requirements.  They mostly have
 ** "reasonable" defaults such that a developer can just run "azd up" and get a working dev
@@ -411,6 +414,9 @@ module application './modules/application-resources.bicep' = {
     subnets: isNetworkIsolated ? spokeNetwork.outputs.subnets : {}
     frontDoorSettings: frontdoor.outputs.settings
 
+    // AI settings
+    searchIndexName: searchIndexName
+
     // Settings
     clientIpAddress: clientIpAddress
     useCommonAppServicePlan: willDeployCommonAppServicePlan
@@ -434,6 +440,9 @@ module application2 './modules/application-resources.bicep' =  if (isMultiLocati
     dnsResourceGroupName: willDeployHubNetwork ? resourceGroups.outputs.hub_resource_group_name : ''
     subnets: isNetworkIsolated && isMultiLocationDeployment? spokeNetwork2.outputs.subnets : {}
     frontDoorSettings: frontdoor.outputs.settings
+
+    // AI settings
+    searchIndexName: searchIndexName
 
     // Settings
     clientIpAddress: clientIpAddress
@@ -497,3 +506,10 @@ output APP_CONFIG_SERVICE_URI string = application.outputs.app_config_uri
 output WEB_URI string = application.outputs.web_uri
 output SQL_DATABASE_NAME string = application.outputs.sql_database_name
 output SQL_SERVER_NAME string = application.outputs.sql_server_name
+
+// AI Settings
+output AZURE_SEARCH_INDEX string = searchIndexName
+
+
+output AZURE_STORAGE_ACCOUNT string = application.outputs.storage_account_name
+output AZURE_STORAGE_CONTAINER string = storageContainerName

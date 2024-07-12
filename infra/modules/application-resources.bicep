@@ -25,6 +25,9 @@ param diagnosticSettings DiagnosticSettings
 @description('The resource names for the resources to be created.')
 param resourceNames object
 
+param searchIndexName string
+param aiStorageContainerName string = 'content'
+
 /*
 ** Dependencies
 */
@@ -455,6 +458,7 @@ module storageAccountContainer '../core/storage/storage-account-blob.bicep' = {
     diagnosticSettings: diagnosticSettings
     containers: [
       { name: ticketContainerName }
+      { name: aiStorageContainerName }
     ]
   }
 }
@@ -498,10 +502,14 @@ module aiResources 'ai-resources.bicep' = if (deploymentSettings.isPrimaryLocati
     logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
     diagnosticSettings: diagnosticSettings
     dnsResourceGroupName: dnsResourceGroupName
-    servicePrefix: 'pyweb'
+    searchIndexName: searchIndexName
+    aiStorageContainerName: aiStorageContainerName
+    servicePrefix: 'pyweb' //should match the service name in azure.yaml
     useCommonAppServicePlan: useCommonAppServicePlan
     managedIdentityName: ownerManagedIdentity.outputs.name // principal_id
     subnets: subnets
+    applicationInsightsId: applicationInsightsId
+    storageAccountName: storageAccount.outputs.name
   }
   dependsOn:[
     webService
@@ -528,3 +536,4 @@ output web_uri string = deploymentSettings.isPrimaryLocation ? webFrontendFrontD
 
 output sql_server_name string = sqlServer.outputs.name
 output sql_database_name string = sqlDatabase.outputs.name
+output storage_account_name string = storageAccount.outputs.name

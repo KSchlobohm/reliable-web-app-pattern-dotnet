@@ -55,6 +55,9 @@
     },
     "azureSecondaryLocation": {
       "value": "${AZURE_SECONDARY_LOCATION}"
+    },
+    "searchIndexName": {
+      "value": "${AZURE_SEARCH_INDEX=gptkbindex}"
     }
   }
 }
