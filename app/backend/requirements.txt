@@ -443,3 +443,6 @@ zipp==3.19.2
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
+
+
+gunicorn>=20.0.0,<21.0.0
