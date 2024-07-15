@@ -378,7 +378,7 @@ resource roleGrantCurrentUserAccessToManageSearch 'Microsoft.Authorization/roleA
   }
 }
 
-// Grants full access to Azure Cognitive Search index data.
+// Grants full access to Azure AI Search index data.
 var searchIndexDataContributor = '8ebe5a00-799e-43f5-93ac-243d3dce84a7'
 resource roleGrantUAMIAccessToCreateSearchData 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(subscription().id, resourceGroup.id, 'GiveUAMIPermissionToUploadDocsAndGenerateAISearchData', searchIndexDataContributor)
