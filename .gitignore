@@ -359,3 +359,6 @@ MigrationBackup/
 .mono
 az_ssh_config/
 ssh-config
+
+# Ignore the static files produced by the frontend as they are copied to the backend
+app/backend/static/
