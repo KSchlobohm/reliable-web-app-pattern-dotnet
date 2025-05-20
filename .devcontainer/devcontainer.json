@@ -43,5 +43,5 @@
 		"ghcr.io/devcontainers/features/sshd:1": {}
 	},
 	// resolves error: dubious ownership of the workspace folder
-	"postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}"
+	"postStartCommand": "git config --add safe.directory ${containerWorkspaceFolder}"
 }
