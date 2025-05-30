@@ -1,0 +1,14 @@
+{
+    "inputs": [],
+    "servers": {
+        "DevContainerTools": {
+            "type": "stdio",
+            "command": "dotnet",
+            "args": [
+                "run",
+                "--project",
+                "D:\\repos\\KSchlobohm\\mcp-for-vscode-extensions\\McpForVsCodeExtensions\\McpForVsCodeExtensions.csproj"
+            ]
+        }
+    }
+}
